@@ -1,0 +1,90 @@
+{
+    "name": "laravel/laravel",
+
+    "description": "The Laravel Framework.",
+    "keywords": ["framework", "laravel"],
+
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "laravel/framework": "4.2.*",
+        "lucadegasperi/oauth2-server-laravel": "3.*",
+        "guzzlehttp/guzzle": "~4.0",
+        "graham-campbell/flysystem": "~1.0",
+        "league/flysystem-copy": "~1.0",
+        "thujohn/pdf": "dev-master",
+        "cartalyst/sentry": "2.1.*",
+        "laravel/cashier": "~2.0",
+        "willdurand/geocoder": "~2.8",
+        "barryvdh/laravel-cors": "0.2.x",
+        "gloudemans/shoppingcart": "~1.2",
+        "intervention/image": "~2.1",
+        "stripe/stripe-php": "~1.9",
+        "indatus/dispatcher": "1.4.*@dev",
+        "pda/pheanstalk": "^3.1",
+        "easypost/easypost-php": "dev-master",
+        "nicolaslopezj/searchable": "1.*",
+        "fzaninotto/faker": "^1.5",
+        "mockery/mockery": "dev-master@dev",
+        "mnshankar/CSV": "1.8",
+        "hugofirth/mailchimp": "2.0.*",
+        "nathanmac/laravel-restclient": "dev-master",
+        "activecampaign/api-php": "1.0.0",
+        "mitch/hashids": "1.x",
+        "codeception/codeception": "*",
+        "TeamTNT/php-stripe-webhook-tester": "1.0.*",
+        "aweber/aweber": "^1.1",
+        "anam/phantommagick": "^1.0",
+        "jonnyw/php-phantomjs": "3.*",
+        "grabzit/grabzit":"^2.2",
+        "spatie/browsershot": "^1.4",
+        "bradleyboy/laravel-braintree": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/EasyPost/easypost-php"
+        }
+
+    ],
+    "autoload": {
+        "classmap": [
+            "app/commands",
+
+            "app/controllers",
+            "app/models",
+            "app/database/migrations",
+
+            "app/database/seeds",
+            "app/tests/TestCase.php",
+            "vendor/autoload.php"
+        ],
+        "psr-0": {
+            "Softservlet\\Friendship\\": "src/",
+            "ActiveCampaign": "app/lib",
+            "GrabzIt": "lib"
+
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php artisan clear-compiled",
+            "php artisan optimize",
+            "PhantomInstaller\\Installer::installPhantomJS"
+        ],
+        "post-update-cmd": [
+            "php artisan clear-compiled",
+            "php artisan optimize",
+            "PhantomInstaller\\Installer::installPhantomJS"
+        ],
+        "post-create-project-cmd": [
+            "php artisan key:generate"
+        ]
+    },
+    "config": {
+        "preferred-install": "dist",
+        "bin-dir": "bin"
+
+    },
+    "minimum-stability": "stable"
+}

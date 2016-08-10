@@ -1,0 +1,164 @@
+<div class="row wrapper border-bottom white-bg page-heading"> <div class="col-lg-10"> <h2>Orders</h2> <ol class="breadcrumb"> <li> <a href="index.html">Home</a> </li> <li class="active"> <strong>Orders</strong> </li> </ol> </div> <div class="col-lg-2"> </div> </div> <div class="wrapper wrapper-content animated fadeInRight ecommerce"> <div flash-alert="error" active-class="in" class="alert fade" ng-show="flash.message"> <strong class="alert-heading">Error! </strong> <span class="alert-message" ng-bind-html="flash.message"></span> </div> <div flash-alert="success" active-class="in" class="alert fade" ng-show="flash.message"> <strong class="alert-heading">Success! </strong> <span class="alert-message">{{flash.message}}</span> </div> <div class="row"> <div class="col-md-6 form-group"> <input type="text" class="span2 form-control" placeholder="Search" ng-change="getEntities()" ng-model="search"> <!--   <button>
+                   <i class="fa fa-search"></i>
+               </button>--> </div> </div> <div class="table-responsive"> <div class="row"> <div class="col-lg-12"> <div class="ibox"> <div class="ibox-content"> <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15"> <thead> <thead> <tr> <th>Invoice Id <th>Charge Id <th>User <th>Invoice Date <th>Delivery Date <th>Amount <th>Status <th>Action <!--  <th>Delete</th> --> <th> <!-- <th data-sort-ignore="true"></th>-->   <tbody> <tr ng-show="ordersFilter.length == 0" class="text-center"> <td colspan="8">No results  <tr ng-repeat="entity in entities"> <td><a href="#/invoice/{{entity.id}}">{{entity.invoice_id}}</a> <td>{{entity.charge_id}} <td><a href="" ng-click="userDetails(entity.user)"> {{entity.user.username}}</a> <td>{{entity.created_at | date}} <td>{{entity.delivery_date | date}} <td>{{entity.amount | currency}} <td> <span class="label" ng-class="entity.status == 1 ?'label-primary':'label-warning'"> {{getStatus(entity.status)}} </span>  <td> <button ng-show="entity.status == 0" ng-click="ship(entity)" class="btn btn-primary btn-sm">ship </button> <button ng-show="entity.status == 1" ng-click="update(entity.id)" class="btn btn-primary btn-sm">update Status </button>  <!--      <td>
+                        <button class="btn btn-danger btn-sm" ng-click="deleteConfirm(entity)"><i class="fa fa-trash icon-white"></i>&nbsp;&nbsp;<span class="bold">Delete</span>
+                         </button>
+                        </td> --> <td> <a href="#/orderTrack/{{entity.hash_id}}" class="btn btn-primary btn-sm">Track</a>  <!-- <td>
+                                    <button class="btn-white btn btn-xs" ng-click="moreDetails(order)"
+                                            ng-show="!order.shipment_complete ">Ship
+                                    </button>
+                                </td>-->   </table> <pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" ng-change="getEntities()" items-per-page="itemsPerPage"></pagination> </div> </div> </div> </div> </div> </div> <script type="text/ng-template" id="moreDetailsOrderModalContent.html"><div class="modal-header">
+        <h3 class="modal-title">Confirmation</h3>
+    </div>
+    <div class="modal-body">
+        <div class="margin-bottom-10">
+            <div> Are you sure you want to confirm shipping ?
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">Yes</button>
+        <button class="btn btn-warning" ng-click="cancel()">No</button>
+    </div></script> <script type="text/ng-template" id="moreOrderModalContent.html"><div class="modal-header">
+        <h3 class="modal-title"> Order Details</h3>
+    </div>
+
+    <div class="modal-body">
+    <div class="row" style="">
+  <b> Invoice Id : </b>    {{order.invoice_id}}
+  <span class="label pull-right"
+                                  ng-class="order.status == 1 ?'label-primary':'label-warning'">
+                                {{getStatus(order.status)}}
+                            </span>
+                            <br>
+                            <b> Invoice Date : </b>  {{order.created_at | date}}
+
+</div><br><br>
+    <div class="table-responsive">
+
+<table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
+        
+                            <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                                <th> Price</th>
+                               <!-- <th data-sort-ignore="true"></th>-->
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-show="items.length == 0" class="text-center">
+                                <td colspan="8">No results</td>
+                            </tr>
+                            <tr ng-repeat="order in items">
+                                <td>{{order.product.name}}</td>
+                                <td> {{order.quantity}}</td>
+                                <td>{{order.product.unit_price | currency}}</td>
+                                <td>{{order.product.unit_price*order.quantity |currency}}</td>
+                         
+                            </tr>
+                            <tr>
+                            <td></td>
+                            <td></td>
+                            <td>Total :</td>
+                            <td>{{order.amount | currency}}</td>
+                            </tr>
+
+
+                            </tbody>
+
+
+                        </table>
+                        </div>
+</div>
+                <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div></script> <script type="text/ng-template" id="userDetailsOrderModalContent.html"><div class="modal-header">
+        <h3 class="modal-title"> User Details</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" ng-show="!edit">
+            <div class="form-group">
+                <label class="col-md-4"><b>First Name </b></label>
+                <label class="col-md-8"> <i class="fa fa-user"></i>
+                    {{user.first_name}}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4"><b>Last Name </b></label>
+
+                <label class="col-md-8"> <i class="fa fa-user"></i>
+                    {{user.last_name}}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4"><b>Email </b></label>
+                <label class="col-md-8"> <i class="fa fa-envelope"></i>
+                    {{user.email}}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4"><b>City</b></label>
+                <label class="col-md-8"> <i class="fa "></i>
+                    {{user.city}}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4"><b>Country</b></label>
+                <label class="col-md-8"> <i class="fa "></i>
+                    {{user.country}}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4"><b>Store Name</b></label>
+                <label class="col-md-8"> <i class="fa "></i>
+                    {{user.storeName}}</label>
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div></script> <script type="text/ng-template" id="productDetailsModalContent.html"><div class="inmodal">
+        <div class="modal-header">
+            <h3 class="modal-title">Product Details</h3>
+        </div>
+        <div class="modal-body">
+            <div>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-6"><b>Title </b></label>
+
+                        <div class="col-sm-6"> {{product.title}}</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-6"><b>Category </b></label>
+
+                        <div class="col-sm-6"><i class="fa fa "></i>
+                            {{product.category.name}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-6"><b>Barnd </b></label>
+
+                        <div class="col-sm-6"><i class="fa fa "></i>
+                            {{product.brand.name}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-6"><b>Tags</b></label>
+
+                        <div class="col-sm-6">
+                            <ul>
+                                <li ng-repeat="tag in product.tags">{{tag.text}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-6"><b>Description </b></label>
+
+                        <div class="col-sm-6" ng-bind-html="product.content"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">Ok</button>
+        </div>
+    </div></script>

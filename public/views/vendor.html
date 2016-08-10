@@ -1,0 +1,107 @@
+<div class="row wrapper border-bottom white-bg page-heading"> <div class="col-lg-10"> <h2>{{entityName | capitalize}}</h2> <ol class="breadcrumb"> <li> <a href="index.html">Home</a> </li> <li class="active"> <strong>{{entityName | capitalize}}</strong> </li> </ol> </div> <div class="col-lg-2"> </div> </div> <div class="wrapper wrapper-content animated fadeInRight ecommerce"> <div class="row"> <div flash-alert="error" active-class="in" class="alert fade" ng-show="flash.message"> <strong class="alert-heading">Error! </strong> <span class="alert-message" ng-bind-html="flash.message"></span> </div> <div flash-alert="success" active-class="in" class="alert fade" ng-show="flash.message"> <strong class="alert-heading">Success! </strong> <span class="alert-message">{{flash.message}}</span> </div> </div> <div class="wrapper wrapper-content animated fadeInRight"> <div> <div class="row"> <div class="col-lg-12"> <div class="ibox product-detail"> <div class="ibox-content"> <div class="row page-heading"> </div> <div class="row"> <div class="col-md-6 form-group"> <button ng-click="open()" class="btn btn-info">Create New {{entityName | capitalize}} </button> </div> <div class="col-md-6 form-group pull-right"> <input type="text" ng-change="getEntities()" class="span2 form-control" placeholder="Search" ng-model="search"> </div> </div> <div class="table-responsive"> <table class="table table-hover"> <thead> <tr> <th><a href="" ng-click="order_itemStr = 'email';order_reverseStr=!order_reverseStr">Email</a>  <th><a href="" ng-click="order_itemStr = 'first_name';order_reverseStr=!order_reverseStr">First Name</a> <th><a href="" ng-click="order_itemStr = 'last_name';order_reverseStr=!order_reverseStr">Last Name</a> <th> <th>   <tbody> <tr ng-repeat="entity in entities"> <!-- <td>{{user}}</td>--> <td><a ng-click="moreDetails(entity)">{{entity.email}}</a> <td>{{entity.first_name}} <td>{{entity.last_name}} <td> <button class="btn btn-danger btn-sm" ng-click="deleteConfirm(entity)"><i class="fa fa-trash icon-white"></i>&nbsp;&nbsp;<span class="bold">Delete</span> </button>    </table> <pagination ng-show="totalItems" total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" ng-change="getEntities()" items-per-page="itemsPerPage"></pagination> </div> </div> </div> </div> </div> </div> </div> <script type="text/ng-template" id="VendorCreate.html"><div class="modal-header">
+            <h3 class="modal-title"> Create New User</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div flash-alert="error" active-class="in" class="alert fade" ng-show="flash.message">
+                    <strong class="alert-heading">Error! </strong>
+                    <span class="alert-message" ng-bind-html="flash.message"></span>
+                </div>
+                <div flash-alert="success" active-class="in" class="alert fade" ng-show="flash.message">
+                    <strong class="alert-heading">Success! </strong>
+                    <span class="alert-message">{{flash.message}}</span>
+                </div>
+            </div>
+            <form class="form-horizontal" name="myForm">
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <div class="input-group m-b">
+                            <span class="input-group-addon"><i class="icon-prepend fa fa-user"></i></span>
+                            <input type="text" name="fname" ng-model="entity.first_name" required class="form-control" placeholder="First Name">
+                        </div>
+                    </div>
+                   
+                    <div class="col-sm-6">
+                        <div class="input-group m-b">
+                            <span class="input-group-addon"><i class="icon-prepend fa fa-user"></i></span>
+                            <input type="text" name="lname" ng-model="entity.last_name" required class="form-control" placeholder="Last Name">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                
+                    <div class="input-group m-b">
+                        <span class="input-group-addon"><i class="icon-prepend fa fa-envelope-o"></i> </span>
+                        <input type="email" placeholder="Email" class="form-control" name="email" ng-model="entity.email" required>
+                    </div>
+                    <div class="m-t-xs" ng-show="myForm.email.$invalid && myForm.email.$dirty">
+                        <small class="text-danger" ng-show="myForm.email.$error">
+                        Please input a valid email address
+                    </small>
+                    </div>
+                    
+                </div>
+         
+     
+
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="create_vendor(entity)" ng-disabled="myForm.email.$pristine || myForm.email.$dirty && myForm.email.$invalid">
+                Create
+            </button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div></script> <script type="text/ng-template" id="VendorEdit.html"><div class="modal-header">
+            <h3 class="modal-title">{{entity.first_name + ' ' + entity.last_name}} </h3>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal" name="myForm">
+                <div class="form-group">
+                    <lable><b>First Name</b></lable>
+                    <br>
+                    <div>
+                        <div class="input-group m-b">
+                            <span class="input-group-addon"><i class="icon-prepend fa fa-user"></i></span>
+                            <input type="text" name="fname" ng-model="entity.first_name" required class="form-control" placeholder="First Name">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <lable><b>Last Name</b></lable>
+                    <br>
+                    <div>
+                        <div class="input-group m-b">
+                            <span class="input-group-addon"><i class="icon-prepend fa fa-user"></i></span>
+                            <input type="text" name="lname" ng-model="entity.last_name" required class="form-control" placeholder="Last Name">
+                        </div>
+                    </div>
+                </div>
+         
+                <div class="form-group">
+                    <lable><b>Email</b></lable>
+                    <br>
+                    <div ng-class="myForm.email.$error.email? 'has-error':''">
+                        <div class="input-group m-b">
+                            <span class="input-group-addon"><i class="icon-prepend fa fa-envelope-o"></i></span>
+                            <input type="email" name="email" ng-model="entity.email" required class="form-control" placeholder="E-mail">
+                            <b class="tooltip tooltip-top-right">
+                            Needed to verify your email
+                        </b>
+                            </span>
+                            <span class="error" ng-show="myForm.email.$error.email">
+                                                       <span class="help-block">
+                                                             <i class="fa fa-warning"></i>
+                                                             Not valid email!
+                                                      </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+             
+         
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()" ng-disabled="!entity">Save Changes</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div></script></div>

@@ -1,0 +1,39 @@
+{
+    "name": "spatie/browsershot",
+    "description": "Convert a webpage to an image",
+    "homepage": "https://github.com/spatie/browsershot",
+    "keywords":
+        [
+            "convert",
+            "webpage",
+            "image",
+            "screenshot",
+            "browser",
+            "phantomjs",
+            "laravel"
+        ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Freek Van der Herten",
+            "email": "freek@spatie.be"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.*|5.*",
+        "intervention/image": "2.*"
+    },
+    "bin": [
+        "bin/phantomjs"
+    ],
+    "require-dev": {
+        "phpspec/phpspec": "~2.1"
+    },
+    "autoload": {
+        "psr-0": {
+            "Spatie\\Browsershot": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
